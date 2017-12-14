@@ -1,0 +1,22 @@
+﻿using System;
+using Xunit;
+
+namespace CodeToCommandLine.Tests
+{
+    public class HelpTextGeneratorTests
+    {
+        [Fact(Skip = "NotImplemented")]
+        public void HelpTextGeneratorShouldGenerateTextForMultipleCommands()
+        {
+            // TODO fix
+            //var commands = new Command[]
+            //{
+            //    new Command{ CommandName = "SomeMethod", CommandParameters = { new CommandParameter { Name = "number", Short="n", HelpText = "", Type = typeof(int)} } },
+            //    new Command{ CommandName = "SomeOtherMethod", CommandParameters = { new CommandParameter { Name = "text", Short="n", HelpText = "", Type = typeof(string)} } },
+            //};
+
+            //var helptext = new HelpTextsGenerator().HelpTextForCommands(commands);
+            throw new NotImplementedException();
+        }
+    }
+}
