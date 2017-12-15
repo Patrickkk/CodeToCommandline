@@ -6,4 +6,13 @@
     <StartupObject>CodeToCommandline.CommandlineExample.Program</StartupObject>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CodeToCommandLine.Tests\CodeToCommandLine.Tests.csproj" />
+    <ProjectReference Include="..\CodeToCommandLine\CodeToCommandLine.csproj" />
+  </ItemGroup>
+
 </Project>

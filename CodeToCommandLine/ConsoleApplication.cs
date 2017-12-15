@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace CodeToCommandLine
@@ -46,7 +47,13 @@ namespace CodeToCommandLine
             var commandText = "";
             while (commandText != quitCommand)
             {
-                commandText = Console.ReadLine();
+                var inputBuffer = new byte[1024];
+                var inputStream = Console.OpenStandardInput(inputBuffer.Length);
+                using (var streamReader = new StreamReader(inputStream, Console.InputEncoding, false, inputBuffer.Length))
+                {
+                    Console.SetIn(streamReader);
+                    commandText = Console.ReadLine();
+                }
                 if (commandText == helpComand)
                 {
                     var helptext = helpTextsGenerator.HelpTextForCommands(commands);

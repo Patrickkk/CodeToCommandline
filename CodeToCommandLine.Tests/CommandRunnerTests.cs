@@ -26,9 +26,15 @@ namespace CodeToCommandLine.Tests
         }
 
         [Fact]
+        public async Task TestSimplgdfgdeStaticMethodWithoutParameters()
+        {
+            await RunCommand("StaticMethods." + nameof(StaticMethods.WithoutParameters));
+        }
+
+        [Fact]
         public async Task TestSimpleStaticAsyncMethodWithoutParameters()
         {
-            await RunCommand("AsyncStaticMethods." + nameof(AsyncStaticMethods.AsyncMethod));
+            await RunCommand(@"M p ""D:\Checknet\Checknet Core Data\CheckNet.Core\CheckNet.Core.Data.IntegrationTests\CosmosSeeder\TestData"" d ""Test2"" c ""collectiontest"" uri ""https://localhost:8081"" k ""C2y6yDjf5 / R + ob0N8A7Cgv30VRDJIWEHLM + 4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw / Jw == "" ");
         }
 
         [Fact]
