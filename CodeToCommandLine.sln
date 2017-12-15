@@ -1,13 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeToCommandLine", "CodeToCommandLine\CodeToCommandLine.csproj", "{F6929970-81D8-4157-BAEF-4B1DBDB4F4F1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeToCommandLine.Tests", "CodeToCommandLine.Tests\CodeToCommandLine.Tests.csproj", "{525448FE-537D-4A3F-B5B6-1A346B01D774}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeToCommandline.CommandlineExample", "CodeToCommandline.CommandlineExample\CodeToCommandline.CommandlineExample.csproj", "{A67741F2-330E-46D4-A09A-C9181A5EF9B4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{192C1AF9-A387-4977-AE93-1170073D46BC}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
