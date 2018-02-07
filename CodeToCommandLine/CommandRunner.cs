@@ -1,8 +1,8 @@
-﻿using System;
+﻿using CodeToCommandLine.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CodeToCommandLine.Model;
 
 namespace CodeToCommandLine
 {
@@ -63,7 +63,8 @@ namespace CodeToCommandLine
 
         private async Task RunCommandAsync(Command commandToRun, string[] args)
         {
-            var argumentValues = this.arumentParser.Parse(args, commandToRun);
+            var argumentsWithoutCommand = args.Skip(1).ToArray();
+            var argumentValues = this.arumentParser.Parse(argumentsWithoutCommand, commandToRun);
             var instance = GetInstanceOrDefault(commandToRun);
             if (typeof(Task).IsAssignableFrom(commandToRun.Method.ReturnType))
             {
