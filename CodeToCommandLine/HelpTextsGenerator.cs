@@ -1,7 +1,7 @@
-﻿using System;
+﻿using CodeToCommandLine.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using CodeToCommandLine.Model;
 
 namespace CodeToCommandLine
 {
@@ -14,7 +14,7 @@ namespace CodeToCommandLine
         public string HelpTextForCommand(CommandClassWithCommand command)
         {
             return WithNewLines(
-                $"{command.CommandClass.ClassName}[{command.CommandClass.ClassNameShort}] {command.Command.CommandName},[{command.Command.Short}] {command.Command.HelpText}" +
+                $"{command.CommandClass.ClassName}[{command.CommandClass.ClassNameShort}] {command.Command.CommandName.TrimEndStringOrdinalIgnoreCase("Async")},[{command.Command.Short}] {command.Command.HelpText}" +
                 HelpForParameters(command.Command.CommandParameters));
         }
 
