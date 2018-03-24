@@ -10,79 +10,105 @@ namespace CodeToCommandLine
     {
         private readonly IArgumentParser arumentParser;
         private readonly Func<Type, object> instanceProvider;
-        private readonly List<CommandClassWithCommand> commands;
+        private readonly List<CommandInfo> commands;
 
-        public CommandRunner(List<CommandClassWithCommand> commands, IArgumentParser argumentParser, Func<Type, object> instanceProvider)
+        public CommandRunner(List<CommandInfo> commands, IArgumentParser argumentParser, Func<Type, object> instanceProvider)
         {
             this.commands = commands;
             this.arumentParser = argumentParser;
             this.instanceProvider = instanceProvider;
         }
 
-        public Task RunCommandAsync(string command)
+        public async Task<int> RunCommandAsync(string command)
         {
-            var args = CommandParser.ParseCommand(command);
-            return RunAsync(args);
+            try
+            {
+                var args = CommandParser.ParseCommand(command);
+                await RunAsync(args);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return 1;
+            }
+            return 0;
         }
 
         public Task RunAsync(string[] args)
         {
             var command = args[0];
-
             var commandToRun = GetCommandToRun(command, args);
-
-            return RunCommandAsync(commandToRun.Command, args);
+            return RunCommandAsync(commandToRun, args);
         }
 
-        private CommandClassWithCommand GetCommandToRun(string command, string[] args)
+        private CommandInfo GetCommandToRun(string command, string[] args)
         {
             var matchingCommands = GetCommandsWithMathingName(command);
             if (matchingCommands.None())
             {
-                throw new Exception($"No Commands found for command '{command}'");
+                throw new Exception($"No Commands found for command '{command}'");// todo output info about help text
             }
 
-            // TODO match based on parameters
-            return matchingCommands.Single();
+            if (matchingCommands.Count() == 1)
+            {
+                return matchingCommands.Single();
+            }
+            return matchCommandsOnArguments(matchingCommands, args);
         }
 
-        private IEnumerable<CommandClassWithCommand> GetCommandsWithMathingName(string command)
+        private CommandInfo matchCommandsOnArguments(IEnumerable<CommandInfo> matchingCommands, string[] args)
+        {
+            throw new NotImplementedException("TODO implement overload resolution based on the number and names of arguments.");
+        }
+
+        private IEnumerable<CommandInfo> GetCommandsWithMathingName(string command)
         {
             if (command.Contains('.'))
             {
                 var classPrefix = command.Split('.')[0];
                 var commandName = command.Split('.')[1];
-                return this.commands.Where(x => (x.CommandClass.ClassName == classPrefix || x.CommandClass.ClassNameShort == classPrefix) &&
-                (x.Command.CommandName == commandName || x.Command.Short == commandName));
+                return this.commands.Where(x => (x.ClassName == classPrefix || x.ClassNameShort == classPrefix) &&
+                (x.CommandName == commandName || x.CommandNameShort == commandName));
             }
             else
             {
-                return this.commands.Where(x => x.Command.CommandName == command || x.Command.Short == command);
+                return this.commands.Where(x => x.CommandName == command || x.CommandNameShort == command);
             }
         }
 
-        private async Task RunCommandAsync(Command commandToRun, string[] args)
+        private async Task RunCommandAsync(CommandInfo commandToRun, string[] args)
         {
             var argumentsWithoutCommand = args.Skip(1).ToArray();
             var argumentValues = this.arumentParser.Parse(argumentsWithoutCommand, commandToRun);
             var instance = GetInstanceOrDefault(commandToRun);
-            if (typeof(Task).IsAssignableFrom(commandToRun.Method.ReturnType))
+            if (typeof(Task).IsAssignableFrom(commandToRun.MethodInfo.ReturnType))
             {
-                await (Task)commandToRun.Method.Invoke(instance, argumentValues);
+                await (Task)commandToRun.MethodInfo.Invoke(instance, argumentValues);
             }
             else
             {
-                commandToRun.Method.Invoke(instance, argumentValues);
+                commandToRun.MethodInfo.Invoke(instance, argumentValues);
             }
         }
 
-        private object GetInstanceOrDefault(Command commandToRun)
+        internal void WriteHelpText()
         {
-            if (commandToRun.Method.IsStatic)
+            var helptext = HelpTextsGenerator.WriteHelpText(this.commands);
+            Console.WriteLine(helptext);
+            Console.WriteLine();
+        }
+
+        private object GetInstanceOrDefault(CommandInfo commandToRun)
+        {
+            if (commandToRun.MethodInfo.IsStatic)
             {
                 return null;
             }
-            return instanceProvider(commandToRun.Method.DeclaringType);
+            if (commandToRun.ProvidedInstance != null)
+            {
+                return commandToRun.ProvidedInstance;
+            }
+            return instanceProvider(commandToRun.Type);
         }
     }
 }

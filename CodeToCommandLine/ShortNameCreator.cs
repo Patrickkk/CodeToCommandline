@@ -15,6 +15,18 @@ namespace CodeToCommandLine
                 GetMinimumUniqueLengthShortName(name, exsistingNames);
         }
 
+        public static string GetShortNameWithAllKnownValues(string name, IEnumerable<string> exsistingNames)
+        {
+            var otherNames = exsistingNames.Where(x => x != name);
+            var singleLetterExsistingNames = otherNames.Where(x => x != name).Select(x => x.Substring(0, 1));
+            var capitalLettersName = otherNames.Where(x => x != name).Select(GetCapitalLettersName);
+
+            return
+                GetSingleLetterShortName(name, singleLetterExsistingNames) ??
+                GetCapitalLettersShortName(name, capitalLettersName) ??
+                name;
+        }
+
         private static string GetMinimumUniqueLengthShortName(string name, IEnumerable<string> exsistingNames)
         {
             var length = StringLengthUntillNoMoreDuplicates(exsistingNames);
@@ -23,12 +35,17 @@ namespace CodeToCommandLine
 
         private static string GetCapitalLettersShortName(string name, IEnumerable<string> exsistingNames)
         {
-            var capitalLettersName = string.Concat(name.Where(x => char.IsUpper(x)));
+            var capitalLettersName = GetCapitalLettersName(name);
             if (!exsistingNames.Contains(capitalLettersName, StringComparer.OrdinalIgnoreCase))
             {
                 return capitalLettersName;
             }
             return null;
+        }
+
+        private static string GetCapitalLettersName(string name)
+        {
+            return string.Concat(name.Where(x => char.IsUpper(x)));
         }
 
         private static string GetSingleLetterShortName(string name, IEnumerable<string> exsistingNames)

@@ -4,6 +4,6 @@ namespace CodeToCommandLine
 {
     public interface IArgumentParser
     {
-        object[] Parse(string[] args, Command commandToRun);
+        object[] Parse(string[] args, CommandInfo commandToRun);
     }
 }

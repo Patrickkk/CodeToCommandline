@@ -7,33 +7,24 @@ namespace CodeToCommandLine
 {
     public class HelpTextsGenerator
     {
-        public HelpTextsGenerator()
+        internal static string WriteHelpText(List<CommandInfo> commands)
         {
+            var commandsHelpText = commands.Select(command => $"{command.ClassName}[{command.ClassNameShort}] {command.CommandName.TrimEndStringOrdinalIgnoreCase("Async")},[{command.CommandNameShort}]"
+            + HelpForParameters(command.CommandParameters));
+            return With2NewLines(commandsHelpText);
         }
 
-        public string HelpTextForCommand(CommandClassWithCommand command)
-        {
-            return WithNewLines(
-                $"{command.CommandClass.ClassName}[{command.CommandClass.ClassNameShort}] {command.Command.CommandName.TrimEndStringOrdinalIgnoreCase("Async")},[{command.Command.Short}] {command.Command.HelpText}" +
-                HelpForParameters(command.Command.CommandParameters));
-        }
-
-        private string HelpForParameters(IEnumerable<CommandParameter> commandParameters)
+        private static string HelpForParameters(List<CommandParameter> commandParameters)
         {
             return commandParameters
-                .Select(parameter => $"{parameter.Name}[{parameter.Short}] type: {parameter.Type} {parameter.HelpText}")
+                .Select(parameter => $"   {parameter.Name}[{parameter.Short}] type: {parameter.Type} {parameter.HelpText}")
                 .Where(x => !string.IsNullOrEmpty(x))
                 .StringJoin(Environment.NewLine);
         }
 
-        public string HelpTextForCommands(IEnumerable<CommandClassWithCommand> commands)
+        private static string With2NewLines(IEnumerable<string> values)
         {
-            return commands.Select(HelpTextForCommand).StringJoin(Environment.NewLine + Environment.NewLine);
-        }
-
-        private string WithNewLines(params string[] values)
-        {
-            return values.Where(x => !string.IsNullOrEmpty(x)).StringJoin(Environment.NewLine);
+            return values.Where(x => !string.IsNullOrEmpty(x)).StringJoin(Environment.NewLine + Environment.NewLine);
         }
     }
 }

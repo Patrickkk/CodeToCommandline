@@ -11,7 +11,7 @@ namespace CodeToCommandLine
         {
         }
 
-        public object[] Parse(string[] args, Command commandToRun)
+        public object[] Parse(string[] args, CommandInfo commandToRun)
         {
             return commandToRun.CommandParameters
                 .Select(x => ParseArgForParameter(args, x))
