@@ -10,4 +10,7 @@
         <Copyright></Copyright>
         <PackageTags>logger logging logs</PackageTags>
     </PropertyGroup>
+    <ItemGroup>
+      <Folder Include="Powershell\" />
+    </ItemGroup>
 </Project>

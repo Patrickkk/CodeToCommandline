@@ -11,6 +11,10 @@ namespace CodeToCommandLine
 
         private List<CommandClass> CommandClasses { get; set; } = new List<CommandClass>();
 
+        public string CreaPOwershellModule()
+        {
+        }
+
         public ConsoleApplication CreateConsoleApplication()
         {
             return new ConsoleApplication(GetFlattenedClasses(), this.CreateRunner(), new HelpTextsGenerator(), instanceProvider);
