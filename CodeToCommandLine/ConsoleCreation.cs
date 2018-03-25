@@ -57,7 +57,7 @@ namespace CodeToCommandLine
 
         public ConsoleApplication CreateConsoleApplication(ConsoleApplicationSettings settings)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("TODO allow for passing in settings for the console application.");
         }
 
         public ConsoleCreation ForInstanceMethod<T>(MethodInfo method, object instance)

@@ -23,5 +23,8 @@ Because the input types cannot be determined untill the actual method is selecte
 - The number of arguments.
 - Names of arguments passed in.
 
+## Todo's
+- more unit tests/integration tests
+
 ## possible future features
 generate powershell module.

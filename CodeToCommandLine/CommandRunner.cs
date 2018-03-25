@@ -28,11 +28,23 @@ namespace CodeToCommandLine
         public Task RunAsync(string[] args)
         {
             var command = args[0];
-            var commandToRun = GetCommandToRun(command, args);
-            return RunCommandAsync(commandToRun, args);
+            var parsedCommands = GetCommandToRun(command, args);
+            var fullyParsedCommands = parsedCommands.Where(x => x.AllArgumentsResolved);
+
+            if (fullyParsedCommands.Count() == 1)
+            {
+                return RunCommandAsync(fullyParsedCommands.Single(), args);
+            }
+
+            if (parsedCommands.Count() == 1)
+            {
+                throw new Exception($"cannot run command {command} missing arguments ");
+            }
+
+            throw new Exception($"Cannot run command {command} with arguments {string.Join(" ", args)} te call is ambiguous between {Environment.NewLine}{HelpTextsGenerator.WriteHelpText(parsedCommands)}. Provide all parameters for the methods to ensure proper overload resolution.");
         }
 
-        private CommandInfo GetCommandToRun(string command, string[] args)
+        private IEnumerable<CommandWithArguments> GetCommandToRun(string command, string[] args)
         {
             var matchingCommands = GetCommandsWithMathingName(command);
             if (matchingCommands.None())
@@ -40,16 +52,7 @@ namespace CodeToCommandLine
                 throw new Exception($"No Commands found for command '{command}'");// todo output info about help text
             }
 
-            if (matchingCommands.Count() == 1)
-            {
-                return matchingCommands.Single();
-            }
-            return matchCommandsOnArguments(matchingCommands, args);
-        }
-
-        private CommandInfo matchCommandsOnArguments(IEnumerable<CommandInfo> matchingCommands, string[] args)
-        {
-            throw new NotImplementedException("TODO implement overload resolution based on the number and names of arguments.");
+            return this.arumentParser.Parse(args, matchingCommands);
         }
 
         private IEnumerable<CommandInfo> GetCommandsWithMathingName(string command)
@@ -67,10 +70,10 @@ namespace CodeToCommandLine
             }
         }
 
-        private async Task RunCommandAsync(CommandInfo commandToRun, string[] args)
+        private async Task RunCommandAsync(CommandWithArguments commandToRun, string[] args)
         {
             var argumentsWithoutCommand = args.Skip(1).ToArray();
-            var argumentValues = this.arumentParser.Parse(argumentsWithoutCommand, commandToRun);
+            var argumentValues = commandToRun.ArgumentParseResults.Select(x => x.ArgumentValue).ToArray();
             var instance = GetInstanceOrDefault(commandToRun);
             if (typeof(Task).IsAssignableFrom(commandToRun.MethodInfo.ReturnType))
             {

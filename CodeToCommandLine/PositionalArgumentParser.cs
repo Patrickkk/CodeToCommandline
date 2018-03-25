@@ -11,14 +11,29 @@ namespace CodeToCommandLine
         {
         }
 
-        public object[] Parse(string[] args, CommandInfo commandToRun)
+        public IEnumerable<CommandWithArguments> Parse(string[] args, IEnumerable<CommandInfo> commands)
         {
-            return commandToRun.CommandParameters
-                .Select(x => ParseArgForParameter(args, x))
-                .ToArray();
+            return commands.Select(command => ParseForCommand(command, args));
         }
 
-        private static object ParseArgForParameter(string[] args, CommandParameter parameter)
+        private CommandWithArguments ParseForCommand(CommandInfo command, string[] args)
+        {
+            return new CommandWithArguments
+            {
+                ClassName = command.ClassName,
+                ClassNameShort = command.ClassNameShort,
+                CommandName = command.CommandName,
+                CommandNameShort = command.CommandNameShort,
+                CommandParameters = command.CommandParameters,
+                MethodInfo = command.MethodInfo,
+                ProvidedInstance = command.ProvidedInstance,
+                Type = command.Type,
+                ParsedArgumentCount = (args.Count() - 1) / 2,
+                ArgumentParseResults = command.CommandParameters.Select(x => ParseArgForParameter(args, x)).ToList(),
+            };
+        }
+
+        private static ArgumentParseResults ParseArgForParameter(string[] args, CommandParameter parameter)
         {
             var argumentTags = args.Where(arg => string.Equals(parameter.Name, arg.TrimStart('-'), StringComparison.OrdinalIgnoreCase) || string.Equals(parameter.Short, arg.TrimStart('-'), StringComparison.OrdinalIgnoreCase));
             if (argumentTags.Count() > 1)
@@ -28,7 +43,10 @@ namespace CodeToCommandLine
 
             if (!argumentTags.Any())
             {
-                throw new Exception($"No matching value found for required parameter {parameter.Name}");
+                return new ArgumentParseResults
+                {
+                    ParameterInfo = parameter,
+                };
             }
 
             var argumentTag = argumentTags.Single();
@@ -39,11 +57,17 @@ namespace CodeToCommandLine
             }
 
             var stringValue = args[tagIndex + 1];
-            return ParseStringValue(stringValue, parameter.Type);
+            var parameterObject = ParseStringValue(stringValue, parameter.Type);
+            return new ArgumentParseResults
+            {
+                ArgumentValue = parameterObject,
+                ParameterInfo = parameter,
+            };
         }
 
         private static object ParseStringValue(string stringValue, Type type)
         {
+            // todo allow custom parsing.
             var types = new Dictionary<Type, Func<string, object>>
             {
                 { typeof(string), str => { return str; } },
@@ -74,7 +98,7 @@ namespace CodeToCommandLine
             }
             else
             {
-                throw new Exception();
+                throw new Exception();// TODO improve error message
             }
         }
     }

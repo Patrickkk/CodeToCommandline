@@ -7,6 +7,7 @@ using CodeToCommandLine.Model;
 
 namespace CodeToCommandLine
 {
+    // TODO rename
     public class TypeToCommandConverter
     {
         private static List<CommandParameter> GetCommandParametersFor(ParameterInfo[] parameterInfo)
@@ -35,7 +36,7 @@ namespace CodeToCommandLine
                 ClassName = info.type.Name,
                 ClassNameShort = ShortNameCreator.GetShortNameWithAllKnownValues(info.type.Name, classNames),
                 CommandName = info.method.Name,
-                CommandNameShort = ShortNameCreator.GetShortNameWithAllKnownValues(info.method.Name.TrimEndStringOrdinalIgnoreCase("async"), classNames),
+                CommandNameShort = ShortNameCreator.GetShortNameWithAllKnownValues(info.method.Name.TrimEndStringOrdinalIgnoreCase("async"), methodNames),
                 MethodInfo = info.method,
                 ProvidedInstance = info.providedInstance,
                 CommandParameters = GetCommandParametersFor(info.method.GetParameters())

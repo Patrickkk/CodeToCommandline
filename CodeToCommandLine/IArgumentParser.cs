@@ -1,9 +1,10 @@
-﻿using CodeToCommandLine.Model;
+﻿using System.Collections.Generic;
+using CodeToCommandLine.Model;
 
 namespace CodeToCommandLine
 {
     public interface IArgumentParser
     {
-        object[] Parse(string[] args, CommandInfo commandToRun);
+        IEnumerable<CommandWithArguments> Parse(string[] args, IEnumerable<CommandInfo> commands);
     }
 }

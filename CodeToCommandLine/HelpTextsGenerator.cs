@@ -7,7 +7,7 @@ namespace CodeToCommandLine
 {
     public class HelpTextsGenerator
     {
-        internal static string WriteHelpText(List<CommandInfo> commands)
+        internal static string WriteHelpText(IEnumerable<CommandInfo> commands)
         {
             var commandsHelpText = commands.Select(command => $"{command.ClassName}[{command.ClassNameShort}] {command.CommandName.TrimEndStringOrdinalIgnoreCase("Async")},[{command.CommandNameShort}]"
             + HelpForParameters(command.CommandParameters));

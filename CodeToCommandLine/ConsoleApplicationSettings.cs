@@ -8,5 +8,7 @@ namespace CodeToCommandLine
     {
         public string[] HelpCommands { get; set; } = new string[] { "help", "h" };
         public string[] QuitCommands { get; set; } = new string[] { "quit", "q" };
+
+        // TODO allow custom implementations of interfaces used in console and commandrunner.
     }
 }
