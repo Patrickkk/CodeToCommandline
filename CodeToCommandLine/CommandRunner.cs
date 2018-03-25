@@ -19,19 +19,10 @@ namespace CodeToCommandLine
             this.instanceProvider = instanceProvider;
         }
 
-        public async Task<int> RunCommandAsync(string command)
+        public async Task RunCommandAsync(string command)
         {
-            try
-            {
-                var args = CommandParser.ParseCommand(command);
-                await RunAsync(args);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-                return 1;
-            }
-            return 0;
+            var args = CommandParser.ParseCommand(command);
+            await RunAsync(args);
         }
 
         public Task RunAsync(string[] args)

@@ -106,7 +106,7 @@ namespace CodeToCommandLine
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex);
-
+                        Console.WriteLine();
                         //TODO handle in a better way
                     }
                 }
