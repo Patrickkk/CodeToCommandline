@@ -38,7 +38,7 @@ namespace CodeToCommandLine
             var argumentTags = args.Where(arg => string.Equals(parameter.Name, arg.TrimStart('-'), StringComparison.OrdinalIgnoreCase) || string.Equals(parameter.Short, arg.TrimStart('-'), StringComparison.OrdinalIgnoreCase));
             if (argumentTags.Count() > 1)
             {
-                throw new Exception($"More than one value found for the parameter {parameter.Name}");
+                throw new CommandExecutionException($"More than one value found for the parameter {parameter.Name}");
             }
 
             if (!argumentTags.Any())
@@ -53,7 +53,7 @@ namespace CodeToCommandLine
             var tagIndex = Array.IndexOf(args, argumentTag);
             if (args.Length < tagIndex + 2)
             {
-                throw new Exception();
+                throw new CommandExecutionException($"Missing value for parameter with name '{argumentTag}'");
             }
 
             var stringValue = args[tagIndex + 1];

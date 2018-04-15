@@ -27,20 +27,17 @@ namespace CodeToCommandLine
         *
         */
 
-        public ConsoleCreation(ImmutableList<(Type, MethodInfo, object)> types, Func<Type, object> instanceProvider, ConsoleApplicationSettings settings)
+        public ConsoleCreation(ImmutableList<(Type, MethodInfo, object)> types, ConsoleApplicationSettings settings)
         {
             this.TypesAndMethods = types;
-            this.InstanceProvider = instanceProvider;
             this.Settings = settings;
         }
 
-        private ConsoleCreation() : this(ImmutableList<(Type, MethodInfo, object)>.Empty, DefaultInstanceProvider, new ConsoleApplicationSettings())
+        private ConsoleCreation() : this(ImmutableList<(Type, MethodInfo, object)>.Empty, new ConsoleApplicationSettings())
         {
         }
 
         public ConsoleApplicationSettings Settings { get; }
-
-        public Func<Type, object> InstanceProvider { get; }
 
         public ImmutableList<(Type, MethodInfo, object)> TypesAndMethods { get; }
 
@@ -52,7 +49,7 @@ namespace CodeToCommandLine
         public ConsoleApplication CreateConsoleApplication()
         {
             var commands = TypeToCommandConverter.CommandsFor(this.TypesAndMethods);
-            return new ConsoleApplication(Settings, commands, new PositionalArgumentParser(), this.InstanceProvider);
+            return new ConsoleApplication(Settings, commands, new PositionalArgumentParser());
         }
 
         public ConsoleApplication CreateConsoleApplication(ConsoleApplicationSettings settings)
@@ -85,13 +82,6 @@ namespace CodeToCommandLine
             return ForMethodsInternal(type, DeclaredPublicInstanceMethod, instance);
         }
 
-        [Obsolete("TODO see if this is really required, since this can also be done via the console application")]
-        public CommandRunner CreateRunner()
-        {
-            var commands = TypeToCommandConverter.CommandsFor(this.TypesAndMethods);
-            return new CommandRunner(commands, new PositionalArgumentParser(), this.InstanceProvider);
-        }
-
         public ConsoleCreation ForInstanceMethods<T>(T instance)
         {
             return ForMethodsInternal(typeof(T), DeclaredPublicInstanceMethod, instance);
@@ -119,24 +109,19 @@ namespace CodeToCommandLine
 
         public ConsoleCreation WithInstanceCreator(Func<Type, object> instanceProvider)
         {
-            return new ConsoleCreation(this.TypesAndMethods, instanceProvider, this.Settings);
-        }
-
-        private static object DefaultInstanceProvider(Type type)
-        {
-            return Activator.CreateInstance(type);
+            return new ConsoleCreation(this.TypesAndMethods, this.Settings);
         }
 
         private ConsoleCreation ForMethodInternal(Type type, MethodInfo method, object instance)
         {
-            return new ConsoleCreation(this.TypesAndMethods.Add((type, method, instance)), this.InstanceProvider, this.Settings);
+            return new ConsoleCreation(this.TypesAndMethods.Add((type, method, instance)), this.Settings);
         }
 
         private ConsoleCreation ForMethodsInternal(Type type, BindingFlags bindingFlags, object instance)
         {
             var methods = type.GetMethods(bindingFlags);
             var newMethods = methods.Select(x => (type, x, instance));
-            return new ConsoleCreation(this.TypesAndMethods.AddRange(newMethods), this.InstanceProvider, this.Settings);
+            return new ConsoleCreation(this.TypesAndMethods.AddRange(newMethods), this.Settings);
         }
     }
 }

@@ -14,12 +14,22 @@ namespace CodeToCommandLine
         private readonly ConsoleApplicationSettings settings;
         private readonly List<CommandInfo> commands;
 
-        public ConsoleApplication(ConsoleApplicationSettings settings, List<CommandInfo> commands, IArgumentParser parser, Func<Type, object> instanceProvider)
+        public ConsoleApplication(ConsoleApplicationSettings settings, List<CommandInfo> commands, IArgumentParser parser)
         {
             this.settings = settings;
             this.commands = commands;
-            this.commandRunner = new CommandRunner(commands, parser, instanceProvider);
+            this.commandRunner = new CommandRunner(commands, parser, settings.InstanceProvider);
             // TODO validate conflicts between helptext/quit and commands
+        }
+
+        /// <summary>
+        /// Run command directly without console.
+        /// </summary>
+        /// <param name="commandText"></param>
+        /// <returns></returns>
+        public Task RunCommandAsync(string commandText)
+        {
+            return this.commandRunner.RunCommandAsync(commandText);
         }
 
         public async Task<int> RunAsync(string[] args = null)
@@ -56,7 +66,7 @@ namespace CodeToCommandLine
 
         private bool CommandIsHelpCommand(string commandText)
         {
-            return this.settings.HelpCommands.Contains(commandText, StringComparer.OrdinalIgnoreCase);
+            return this.settings.HelpCommands.Any(x => commandText.StartsWith(x, StringComparison.OrdinalIgnoreCase));
         }
 
         private bool CommandIsQuitCommand(string commandText)
@@ -82,7 +92,7 @@ namespace CodeToCommandLine
 
         public async Task RunAsConsoleApplicationAsync()
         {
-            var welcomeText = $"type {this.settings.HelpCommands[0]} for help or {this.settings.QuitCommands[0]} to exit the application.";
+            var welcomeText = $"type '{this.settings.HelpCommands[0]}' for help or {this.settings.QuitCommands[0]} to exit the application.";
             Console.WriteLine(welcomeText);
 
             while (true)
@@ -102,6 +112,11 @@ namespace CodeToCommandLine
                     {
                         await this.commandRunner.RunCommandAsync(commandText);
                         Console.WriteLine();
+                    }
+                    catch (CommandExecutionException commandExecutionException)
+                    {
+                        Console.WriteLine(commandExecutionException.Message);
+                        Console.WriteLine($"type '{this.settings.HelpCommands[0]}' for help and available commands.");
                     }
                     catch (Exception ex)
                     {

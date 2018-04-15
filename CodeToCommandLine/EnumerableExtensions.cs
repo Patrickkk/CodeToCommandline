@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace CodeToCommandLine
 {
@@ -7,6 +8,11 @@ namespace CodeToCommandLine
         public static string StringJoin(this IEnumerable<string> values, string seperator)
         {
             return string.Join(seperator, values);
+        }
+
+        public static string StringJoinNewLine(this IEnumerable<string> values)
+        {
+            return values.StringJoin(Environment.NewLine);
         }
     }
 }

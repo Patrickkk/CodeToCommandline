@@ -38,10 +38,10 @@ namespace CodeToCommandLine
 
             if (parsedCommands.Count() == 1)
             {
-                throw new Exception($"cannot run command {command} missing arguments ");
+                throw new CommandExecutionException($"cannot run command {command} missing arguments {string.Join(",", parsedCommands.First().ArgumentParseResults.Where(x => x.ArgumentValue == null).Select(x => x.ParameterInfo.Name))}");
             }
 
-            throw new Exception($"Cannot run command {command} with arguments {string.Join(" ", args)} te call is ambiguous between {Environment.NewLine}{HelpTextsGenerator.WriteHelpText(parsedCommands)}. Provide all parameters for the methods to ensure proper overload resolution.");
+            throw new CommandExecutionException($"Cannot run command {command} with arguments {string.Join(" ", args)} te call is ambiguous between {Environment.NewLine}{HelpTextsGenerator.WriteHelpText(parsedCommands)}. Provide all parameters for the methods to ensure proper overload resolution.");
         }
 
         private IEnumerable<CommandWithArguments> GetCommandToRun(string command, string[] args)
@@ -49,7 +49,7 @@ namespace CodeToCommandLine
             var matchingCommands = GetCommandsWithMathingName(command);
             if (matchingCommands.None())
             {
-                throw new Exception($"No Commands found for command '{command}'");// todo output info about help text
+                throw new CommandExecutionException($"No Commands found for command '{command}'");// todo output info about help text
             }
 
             return this.arumentParser.Parse(args, matchingCommands);

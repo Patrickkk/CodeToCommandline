@@ -10,7 +10,7 @@ namespace CodeToCommandLine.Tests
         [Fact]
         public async Task RunningNonExsistingCommandShouldShowHelp()
         {
-            await Assert.ThrowsAsync<Exception>(async () => { await RunCommand("NonExsisting"); });
+            await Assert.ThrowsAsync<CommandExecutionException>(async () => { await RunCommand("NonExsisting"); });
         }
 
         [Fact]
@@ -56,7 +56,7 @@ namespace CodeToCommandLine.Tests
                                            .ForType<AsyncStaticMethods>()
                                            .ForType<InstanceTestClass>()
                                            .WithInstanceCreator(InstanceProvider)
-                                           .CreateRunner();
+                                           .CreateConsoleApplication();
             return commandRunner.RunCommandAsync(command);
         }
 
