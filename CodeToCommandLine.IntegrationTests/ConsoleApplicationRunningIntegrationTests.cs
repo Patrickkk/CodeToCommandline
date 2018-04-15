@@ -68,12 +68,8 @@ TEST";
             {
                 FileName = @"dotnet",
                 Arguments = pathToConsoleApp,
-                WorkingDirectory = "",
-                //UseShellExecute = true,
                 RedirectStandardInput = true,
                 RedirectStandardOutput = true,
-                //WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
-                //CreateNoWindow = true,
             };
 
             Process process = new System.Diagnostics.Process
