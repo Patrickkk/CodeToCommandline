@@ -62,8 +62,6 @@ TEST";
         private void RunCommandLineApp(Action<Process> writeActions, Action<string> assertActions)
         {
             var pathToConsoleApp = @"..\..\..\..\CodeToCommandline.CommandlineExample\bin\Debug\netcoreapp2.0\CodeToCommandline.CommandlineExample.dll";
-            var file = new FileInfo(pathToConsoleApp);
-
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
                 FileName = @"dotnet",
@@ -76,7 +74,7 @@ TEST";
             {
                 StartInfo = startInfo
             };
-            var started = process.Start();
+            process.Start();
             writeActions(process);
 
             if (!process.HasExited)
