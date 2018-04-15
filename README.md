@@ -6,7 +6,6 @@ Turn your code into a commandline application. Sometimes you have some exsisting
   - Run the program with arguments.
   - Run the program as a console application.
 - Simple fluent api for setup.
-- extensible
 
 ## Non goals
 - to be the perfect console application.
