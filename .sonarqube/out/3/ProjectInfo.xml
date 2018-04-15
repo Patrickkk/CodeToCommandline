@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
+  <ProjectName>CodeToCommandline.CommandlineExample</ProjectName>
+  <ProjectLanguage>C#</ProjectLanguage>
+  <ProjectType>Product</ProjectType>
+  <ProjectGuid>a67741f2-330e-46d4-a09a-c9181a5ef9b4</ProjectGuid>
+  <FullPath>C:\Users\Patrick\Source\Repos\CodeToCommandline\CodeToCommandline.CommandlineExample\CodeToCommandline.CommandlineExample.csproj</FullPath>
+  <IsExcluded>false</IsExcluded>
+  <AnalysisResults>
+    <AnalysisResult Id="FilesToAnalyze" Location="C:\Users\Patrick\Source\Repos\CodeToCommandline\.sonarqube\out\3\FilesToAnalyze.txt" />
+  </AnalysisResults>
+  <AnalysisSettings>
+    <Property Name="sonar.cs.roslyn.reportFilePath">C:\Users\Patrick\Source\Repos\CodeToCommandline\CodeToCommandline.CommandlineExample\bin\Debug\netcoreapp2.0\CodeToCommandline.CommandlineExample.dll.RoslynCA.json</Property>
+    <Property Name="sonar.cs.analyzer.projectOutPath">C:\Users\Patrick\Source\Repos\CodeToCommandline\.sonarqube\out\3</Property>
+  </AnalysisSettings>
+  <Configuration>Debug</Configuration>
+  <Platform>AnyCPU</Platform>
+  <TargetFramework>netcoreapp2.0</TargetFramework>
+</ProjectInfo>

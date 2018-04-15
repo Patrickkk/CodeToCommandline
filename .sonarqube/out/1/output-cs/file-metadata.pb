@@ -1,0 +1,11 @@
+X
+VC:\Users\Patrick\Source\Repos\CodeToCommandline\CodeToCommandLine.Tests\CodeConvert.cs_
+]C:\Users\Patrick\Source\Repos\CodeToCommandline\CodeToCommandLine.Tests\CommandParserTests.cs_
+]C:\Users\Patrick\Source\Repos\CodeToCommandline\CodeToCommandLine.Tests\CommandRunnerTests.csc
+aC:\Users\Patrick\Source\Repos\CodeToCommandline\CodeToCommandLine.Tests\HelpTextGeneratorTests.csi
+gC:\Users\Patrick\Source\Repos\CodeToCommandline\CodeToCommandLine.Tests\TestInput\AsyncStaticMethods.csh
+fC:\Users\Patrick\Source\Repos\CodeToCommandline\CodeToCommandLine.Tests\TestInput\InstanceTestClass.csd
+bC:\Users\Patrick\Source\Repos\CodeToCommandline\CodeToCommandLine.Tests\TestInput\StaticMethods.csV
+RC:\Users\Patrick\AppData\Local\Temp\.NETCoreApp,Version=v2.0.AssemblyAttributes.cs‡
+‚C:\Users\Patrick\Source\Repos\CodeToCommandline\CodeToCommandLine.Tests\obj\Debug\netcoreapp2.0\CodeToCommandLine.Tests.Program.csŒ
+‡C:\Users\Patrick\Source\Repos\CodeToCommandline\CodeToCommandLine.Tests\obj\Debug\netcoreapp2.0\CodeToCommandLine.Tests.AssemblyInfo.cs
