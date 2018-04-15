@@ -1,6 +1,20 @@
 # CodeToCommandline
 Turn your code into a commandline application. Sometimes you have some exsisting code that you could use to automate some of your work, but because it takes time to turn it into a console application you are not doing it. With this project you can easily turn your exsisting code into a console application you you can run it more easly via the commandline or powershell.
 
+Most basic example code:
+
+    // Program.cs
+    public static async Task Main(string[] args)
+    {
+        var app = ConsoleCreation.Start()
+            .ForType<StaticMethods>()
+            .CreateConsoleApplication();
+        await app.RunAsync(args);
+    }
+
+The code above will result in a console application that can be run directly with arguments, or can be started so it will run with a console ui.
+
+
 ## Design goals
 - Generate a console application from your exsisting code with minimal setup.
   - Run the program with arguments.

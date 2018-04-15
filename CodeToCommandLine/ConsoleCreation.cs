@@ -109,7 +109,8 @@ namespace CodeToCommandLine
 
         public ConsoleCreation WithInstanceCreator(Func<Type, object> instanceProvider)
         {
-            return new ConsoleCreation(this.TypesAndMethods, this.Settings);
+            this.Settings.InstanceProvider = instanceProvider;
+            return this;
         }
 
         private ConsoleCreation ForMethodInternal(Type type, MethodInfo method, object instance)
