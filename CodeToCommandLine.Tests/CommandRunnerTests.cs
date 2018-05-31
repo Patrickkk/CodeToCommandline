@@ -52,7 +52,8 @@ namespace CodeToCommandLine.Tests
 
         private static Task RunCommand(string command)
         {
-            var commandRunner = CodeConvert.ForType<StaticMethods>()
+            var commandRunner = ConsoleCreation.Start()
+                                           .ForType<StaticMethods>()
                                            .ForType<AsyncStaticMethods>()
                                            .ForType<InstanceTestClass>()
                                            .WithInstanceCreator(InstanceProvider)

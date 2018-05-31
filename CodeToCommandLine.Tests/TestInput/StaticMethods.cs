@@ -4,8 +4,12 @@ using System.Text;
 
 namespace CodeToCommandLine.Tests.TestInput
 {
-    public static class StaticMethods
+    public class StaticMethods
     {
+        private StaticMethods()
+        {
+        }
+
         public static void WithoutParameters()
         {
             Console.WriteLine("Test");
