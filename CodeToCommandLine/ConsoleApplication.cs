@@ -12,12 +12,10 @@ namespace CodeToCommandLine
     {
         private readonly CommandRunner commandRunner;
         private readonly ConsoleApplicationSettings settings;
-        private readonly List<CommandInfo> commands;
 
         public ConsoleApplication(ConsoleApplicationSettings settings, List<CommandInfo> commands, IArgumentParser parser)
         {
             this.settings = settings;
-            this.commands = commands;
             this.commandRunner = new CommandRunner(commands, parser, settings.InstanceProvider);
             // TODO validate conflicts between helptext/quit and commands
         }

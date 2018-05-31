@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CodeToCommandLine.Tests.TestInput
 {
-    public class StaticMethods
+    public static class StaticMethods
     {
         public static void WithoutParameters()
         {

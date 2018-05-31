@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace CodeToCommandLine
 {
-    public class HelpTextsGenerator
+    public static class HelpTextsGenerator
     {
         internal static string WriteHelpText(IEnumerable<CommandInfo> commands)
         {

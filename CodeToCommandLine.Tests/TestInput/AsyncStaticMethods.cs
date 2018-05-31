@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CodeToCommandLine.Tests.TestInput
 {
-    public class AsyncStaticMethods
+    public static class AsyncStaticMethods
     {
         public static async Task AsyncMethod()
         {

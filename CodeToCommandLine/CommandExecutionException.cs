@@ -5,6 +5,7 @@ using System.Text;
 
 namespace CodeToCommandLine
 {
+    [Serializable]
     public class CommandExecutionException : Exception
     {
         public CommandExecutionException()

@@ -8,7 +8,7 @@ using CodeToCommandLine.Model;
 namespace CodeToCommandLine
 {
     // TODO rename
-    public class TypeToCommandConverter
+    public static class TypeToCommandConverter
     {
         private static List<CommandParameter> GetCommandParametersFor(ParameterInfo[] parameterInfo)
         {

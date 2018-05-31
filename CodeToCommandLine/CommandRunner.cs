@@ -49,7 +49,7 @@ namespace CodeToCommandLine
             var matchingCommands = GetCommandsWithMathingName(command);
             if (matchingCommands.None())
             {
-                throw new CommandExecutionException($"No Commands found for command '{command}'");// todo output info about help text
+                throw new CommandExecutionException($"No Commands found for command '{command}' use help to get more information about the available commands");
             }
 
             return this.arumentParser.Parse(args, matchingCommands);
@@ -72,7 +72,6 @@ namespace CodeToCommandLine
 
         private async Task RunCommandAsync(CommandWithArguments commandToRun, string[] args)
         {
-            var argumentsWithoutCommand = args.Skip(1).ToArray();
             var argumentValues = commandToRun.ArgumentParseResults.Select(x => x.ArgumentValue).ToArray();
             var instance = GetInstanceOrDefault(commandToRun);
             if (typeof(Task).IsAssignableFrom(commandToRun.MethodInfo.ReturnType))

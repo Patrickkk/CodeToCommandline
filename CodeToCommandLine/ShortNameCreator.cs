@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CodeToCommandLine
 {
-    internal class ShortNameCreator
+    internal static class ShortNameCreator
     {
         public static string GetShortNameFor(string name, IEnumerable<string> exsistingNames)
         {
@@ -73,7 +73,7 @@ namespace CodeToCommandLine
                 }
                 if (length > values.Max(x => x.Length))
                 {
-                    throw new Exception("values aready contains duplicates at the maximum length");
+                    throw new MaximumStringLengthContainsDuplicatesException("values aready contains duplicates at the maximum length");
                 }
             }
         }

@@ -70,7 +70,7 @@ namespace CodeToCommandLine
 
             public string CurrentValue { get; set; } = "";
 
-            public new List<string> Arguments { get; set; } = new List<string>();
+            public List<string> Arguments { get; } = new List<string>();
         }
     }
 }
